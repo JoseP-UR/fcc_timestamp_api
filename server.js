@@ -27,6 +27,12 @@ app.get("/api/timestamp/:date_string?", function (req, res) {
     res.json({error: 'Invalid Date'})
     return
   }
+
+  if (/\d{5,}/.test(date_string)) {
+    const dateInt = parseInt(dateString);
+    res.json({ unix: dateString, utc: new Date(dateInt).toUTCString() });
+    return;
+  }
   
   res.json({
     unix: date.valueOf(),
