@@ -23,17 +23,19 @@ app.get("/", function (req, res) {
 app.get("/api/timestamp/:date_string?", function (req, res) {
   const {date_string} =  req.params
   let date = !date_string ? new Date() : new Date(date_string);
+
+  if (/\d{5,}/.test(date_string)) {
+    const dateInt = parseInt(date_string);
+    res.json({ 
+      unix: date_string, 
+      utc: new Date(dateInt).toUTCString() 
+      });
+    return;
+  }
   if (date == 'Invalid Date') {
     res.json({error: 'Invalid Date'})
     return
   }
-
-  if (/\d{5,}/.test(date_string)) {
-    const dateInt = parseInt(dateString);
-    res.json({ unix: dateString, utc: new Date(dateInt).toUTCString() });
-    return;
-  }
-  
   res.json({
     unix: date.valueOf(),
     utc: date.toUTCString()
