@@ -29,7 +29,7 @@ app.get("/api/timestamp/:date_string?", function (req, res) {
   }
   
   res.json({
-    unix: date.getTime(),
+    unix: date.valueOf(),
     utc: date.toUTCString()
     })
 });
